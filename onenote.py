@@ -23,11 +23,22 @@ title_elements = driver.find_elements(By.CSS_SELECTOR,
                                       '.section--section-title--wcp90')
 
 subtitle_elements = driver.find_elements(By.CSS_SELECTOR,
-                                         'div.section--row--3sLRB > span')
+                                         'div.section--row--3sLRB span')
 
-for title_element in title_elements:
+ul_elements = driver.find_elements(By.CSS_SELECTOR,
+                                   'div.accordion-panel--content-wrapper--1GE5R > div > ul')
+
+array = []
+for ul_element in ul_elements:
+    count = len(ul_element.find_elements(By.TAG_NAME,
+                                         'li'))
+    array.append(count)
+
+temp = 0
+for idx, title_element in enumerate(title_elements):
     print(title_element.text)
-for subtitle_element in subtitle_elements:
-    print(subtitle_element.text)
+    for subtitle_element in subtitle_elements[temp:temp+array[idx]]:
+        print("\t"+subtitle_element.text)
+    temp = temp+array[idx]
 
 driver.close()
